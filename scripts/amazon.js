@@ -1,29 +1,5 @@
-const products=[{
-    image: 'images/products/athletic-cotton-socks-6-pairs.jpg',
-    name: ' Black and Gray Athletic Cotton Socks - 6 Pairs',
-    ratings:{
-        stars:4.5,
-        count:87
-    },
-    pricecents:1090
-},{
-    image: 'images/products/intermediate-composite-basketball.jpg',
-    name: ' Intermediate Size Basketball',
-    ratings:{
-        stars:4,
-        count:127
-    },
-    pricecents:2095
-},{
-    image: 'images/products/adults-plain-cotton-tshirt-2-pack-teal.jpg',
-    name: 'Adults Plain Cotton T-Shirt - 2 Pack',
-    ratings:{
-        stars:4.5,
-        count:56
-    },
-    pricecents:799
-}];
-let productsHTML=``;
+
+let productsHTML= '';
 
 products.forEach((product)=>{
 
@@ -42,12 +18,12 @@ products.forEach((product)=>{
             <img class="product-rating-stars"
               src="images/ratings/rating-45.png">
             <div class="product-rating-count link-primary">
-              ${product.ratings.count}
+              ${product.rating.count}
             </div>
           </div>
 
           <div class="product-price">
-            ${(product.pricecents / 100).toFixed(2)}
+            ${(product.priceCents / 100).toFixed(2)}
           </div>
 
           <div class="product-quantity-container">
@@ -72,7 +48,8 @@ products.forEach((product)=>{
             Added
           </div>
 
-          <button class="add-to-cart-button button-primary">
+          <button class="add-to-cart-button button-primary js-add-to-cart "
+            data-product-id="${product.id}">
             Add to Cart
           </button>
         </div>
@@ -80,6 +57,33 @@ products.forEach((product)=>{
 
 
 });
-console.log(productsHTML);
+
 
 document.querySelector('.js-products-grid').innerHTML=productsHTML;
+
+
+document.querySelectorAll('.js-add-to-cart')
+.forEach((button) => {
+   button.addEventListener('click',() => {
+     const productId = button.dataset.productId;
+     
+     let matchingItem;
+
+     cart.forEach((item)=> {
+      if(productId === item.productId){
+        matchingItem =item;
+      }
+     });
+     if(matchingItem){
+      matchingItem.quantity +=1;
+     } else {
+     cart.push({
+      productId:productId,
+      quantity:1
+        });
+      }
+
+     console.log(cart);
+
+     });
+   });
